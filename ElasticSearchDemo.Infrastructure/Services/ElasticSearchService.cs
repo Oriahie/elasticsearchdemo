@@ -128,28 +128,28 @@ namespace ElasticSearchDemo.Infrastructure.Services
                             var indexName = "property";
                             var data = JsonSerializer.Deserialize<List<Property>>(text);
 
-                            var chunkedData = ChunkBy(data);
+                            //var chunkedData = ChunkBy(data);
 
-                            foreach (var item in chunkedData)
+                            foreach (var item in data.Take(500))
                             {
-                                var dd = await _elasticClient.IndexAsync(item,x=>x.Index(indexName));
-                                var ddd = await _elasticClient.IndexManyAsync(item, indexName);
+                                await _elasticClient.IndexAsync(item,x=>x.Index(indexName));
+                                //var ddd = await _elasticClient.IndexManyAsync(item, indexName);
 
                                 //var bulkRes = await _elasticClient.BulkAsync(b =>
                                 //                    b.Index(indexName)
                                 //                    .IndexMany(item));
                             }
 
-                            Console.WriteLine("before inserting");
+                            //Console.WriteLine("before inserting");
 
-                            var bulkAll = _elasticClient.BulkAll(data, b => b
-                                     .Index(indexName)
-                                     .BackOffRetries(2)
-                                     .BackOffTime("30s")
-                                     .MaxDegreeOfParallelism(4)
-                                     .Size(1000));
-                            bulkAll.Wait(TimeSpan.FromMinutes(30), _ => { Console.WriteLine("data indexed"); });
-                            await _elasticClient.Indices.PutAliasAsync(indexName, indexName);
+                            //var bulkAll = _elasticClient.BulkAll(data, b => b
+                            //         .Index(indexName)
+                            //         .BackOffRetries(2)
+                            //         .BackOffTime("30s")
+                            //         .MaxDegreeOfParallelism(4)
+                            //         .Size(1000));
+                            //bulkAll.Wait(TimeSpan.FromMinutes(30), _ => { Console.WriteLine("data indexed"); });
+                            //await _elasticClient.Indices.PutAliasAsync(indexName, indexName);
                         }
                         break;
                     case RecordType.MANAGEMENT:
@@ -159,7 +159,7 @@ namespace ElasticSearchDemo.Infrastructure.Services
 
                             //var chunkedData = ChunkBy(data,5);
 
-                            foreach (var item in data)
+                            foreach (var item in data.Take(500))
                             {
                                 await _elasticClient.IndexAsync(item, x => x.Index(indexName));
                                 
@@ -174,16 +174,16 @@ namespace ElasticSearchDemo.Infrastructure.Services
                                 ////                    .IndexMany(item));
                             }
 
-                            Console.WriteLine("before inserting");
+                            //Console.WriteLine("before inserting");
 
-                            var bulkAll = _elasticClient.BulkAll(data, b => b
-                                     .Index(indexName)
-                                     .BackOffRetries(2)
-                                     .BackOffTime("30s")
-                                     .MaxDegreeOfParallelism(4)
-                                     .Size(1000));
-                            bulkAll.Wait(TimeSpan.FromMinutes(30), _ => { Console.WriteLine("data indexed"); });
-                            await _elasticClient.Indices.PutAliasAsync(indexName, indexName);
+                            //var bulkAll = _elasticClient.BulkAll(data, b => b
+                            //         .Index(indexName)
+                            //         .BackOffRetries(2)
+                            //         .BackOffTime("30s")
+                            //         .MaxDegreeOfParallelism(4)
+                            //         .Size(1000));
+                            //bulkAll.Wait(TimeSpan.FromMinutes(30), _ => { Console.WriteLine("data indexed"); });
+                            //await _elasticClient.Indices.PutAliasAsync(indexName, indexName);
 
                         }
                         break;
