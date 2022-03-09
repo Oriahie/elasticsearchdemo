@@ -1,12 +1,10 @@
 ﻿using ElasticSearchDemo.Core.Interfaces.Service;
 using ElasticSearchDemo.Infrastructure.Models;
 using ElasticSearchDemo.Infrastructure.Models.DTO;
-using ElasticSearchDemo.Infrastructure;
-using Microsoft.AspNetCore.Http;
+using ElasticSearchDemo.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ElasticSearchDemo.API.Controllers
@@ -20,6 +18,12 @@ namespace ElasticSearchDemo.API.Controllers
             _elasticSearchService = elasticSearchService;
         }
 
+
+        /// <summary>
+        /// Uploads Management/Property file
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost("uploadfile")]
         public async Task<IActionResult> UploadFile([FromForm] UploadFileRequestDTO model)
         {
@@ -30,7 +34,7 @@ namespace ElasticSearchDemo.API.Controllers
                 {
                     Data = res,
                     Succeeded = true,
-                    Message = res ? "Operation Successful" : "Operation Failed"
+                    Message = res ? "Operation In Progress" : "Operation Failed"
                 });
             }
             catch (Exception ex)

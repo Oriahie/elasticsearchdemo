@@ -2,6 +2,7 @@
 using ElasticSearchDemo.Core.Entities;
 using ElasticSearchDemo.Core.Interfaces.Service;
 using ElasticSearchDemo.Infrastructure.Services;
+using ElasticSearchDemo.Infrastructure.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -22,8 +23,8 @@ namespace ElasticSearchDemo.Infrastructure.Extensions
             var connectionSettings = new ConnectionSettings(new Uri(""))
                                         .EnableDebugMode()
                                         .PrettyJson()
-                                        .DefaultMappingFor<Management>(i=>i.IndexName("mgmt"))
-                                        .DefaultMappingFor<Property>(i=>i.IndexName("propt"))
+                                        .DefaultMappingFor<Management>(i=>i.IndexName(Constants.ManagementIndexName))
+                                        .DefaultMappingFor<Property>(i=>i.IndexName(Constants.PropertyIndexName))
                                         .RequestTimeout(TimeSpan.FromMinutes(2));
 
             var client = new ElasticClient(connectionSettings);
